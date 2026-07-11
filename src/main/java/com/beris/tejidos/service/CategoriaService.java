@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.beris.tejidos.exception.CategoriaNoEncontradaException;
-import com.beris.tejidos.exception.CategoriaNombreInvalidoException;
+//import com.beris.tejidos.exception.CategoriaNombreInvalidoException;
 import com.beris.tejidos.model.Categoria;
 import com.beris.tejidos.repository.CategoriaRepository;
 
@@ -19,9 +19,6 @@ public class CategoriaService {
     }
 
     public Categoria guardar(Categoria c) {
-        if (c.getNombre() == null || c.getNombre().isBlank()) {
-            throw new CategoriaNombreInvalidoException("El nombre de la categoría no puede estar vacío.");
-        }
         return repository.save(c);
     }
 
@@ -35,9 +32,6 @@ public class CategoriaService {
     }
 
     public Categoria actualizar(int id, Categoria datos) {
-        if (datos.getNombre() == null || datos.getNombre().isBlank()) {
-            throw new CategoriaNombreInvalidoException("El nombre de la categoría no puede estar vacío.");
-        }
         Categoria c = obtenerPorId(id);
         c.setNombre(datos.getNombre());
         c.setDescripcion(datos.getDescripcion());

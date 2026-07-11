@@ -1,6 +1,7 @@
 package com.beris.tejidos.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "categoria")
@@ -10,9 +11,11 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
+    @NotBlank(message = "El nombre de la categoría no puede estar vacio")
     @Column(name = "nombre", nullable = false, length = 50)
     private String nombre;
     
+    @NotBlank(message = "La descripción no puede estar vacia")
     @Column(name = "descripcion", length = 200)
     private String descripcion;
 

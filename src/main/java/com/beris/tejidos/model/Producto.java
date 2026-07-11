@@ -1,6 +1,9 @@
 package com.beris.tejidos.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 @Table(name = "producto")
@@ -9,13 +12,16 @@ public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
+    
+    @NotBlank(message = "El nombre del producto no puede estar vacio")
     @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
 
+    @Positive(message = "El precio debe ser mayor a cero")
     @Column(name = "precio", nullable = false)
     private double precio;
 
+    @PositiveOrZero(message = "El stock no puede ser negativo")
     @Column(name = "stock", nullable = false)
     private int stock;
 

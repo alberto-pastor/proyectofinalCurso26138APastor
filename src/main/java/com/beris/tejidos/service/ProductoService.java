@@ -1,8 +1,8 @@
 package com.beris.tejidos.service;
 
-import com.beris.tejidos.exception.PrecioInvalidoException;
+//import com.beris.tejidos.exception.PrecioInvalidoException;
 import com.beris.tejidos.exception.ProductoNoEncontradoException;
-import com.beris.tejidos.exception.StockInsuficienteException;
+//import com.beris.tejidos.exception.StockInsuficienteException;
 import com.beris.tejidos.model.Producto;
 import com.beris.tejidos.repository.ProductoRepository;
 
@@ -18,16 +18,6 @@ public class ProductoService {
     }
 
     public Producto guardar(Producto p) {
-        if (p.getNombre() == null || p.getNombre().isBlank()) {
-            throw new IllegalArgumentException("El nombre del producto no puede estar vacío.");
-        }
-        if (p.getPrecio() <= 0) {
-            throw new PrecioInvalidoException("El precio debe ser mayor a cero. Se recibió: " + p.getPrecio());
-        }
-        if (p.getStock() < 0) {
-            throw new StockInsuficienteException("El stock no puede ser negativo. Se recibió: " + p.getStock());
-        }
-        
         return repository.save(p);
     }
 
@@ -41,16 +31,6 @@ public class ProductoService {
     }
 
     public Producto actualizar(int id, Producto datos) {
-        if (datos.getNombre() == null || datos.getNombre().isBlank()) {
-            throw new IllegalArgumentException("El nombre del producto no puede estar vacío.");
-        }
-        if (datos.getPrecio() <= 0) {
-            throw new PrecioInvalidoException("El precio debe ser mayor a cero. Se recibió: " + datos.getPrecio());
-        }
-        if (datos.getStock() < 0) {
-            throw new StockInsuficienteException("El stock no puede ser negativo. Se recibió: " + datos.getStock());
-        }
-        
         Producto p = obtenerPorId(id);
 
         p.setNombre(datos.getNombre());
