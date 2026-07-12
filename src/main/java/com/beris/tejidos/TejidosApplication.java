@@ -23,6 +23,7 @@ public class TejidosApplication {
 			if (productoService.listarTodos().isEmpty()) {
 				Categoria indumentaria = categoriaService.guardar(new Categoria("Indumentaria","Prendas de vestir"));
 				Categoria accesorios = categoriaService.guardar(new Categoria("Accesorios","Accesorios varios"));
+				Categoria temporada = categoriaService.guardar(new Categoria("Temporada","Nuevos diseños"));
 				productoService.guardar(new Producto("Chaleco a Crochet",55000,12,indumentaria));
 				productoService.guardar(new Producto("Bufanda a Crochet",22000,10,accesorios));
 				productoService.guardar(new Producto("Sweater Hombre Cuello V a Crochet",83000,5,indumentaria));
@@ -37,7 +38,7 @@ public class TejidosApplication {
 				productoService.guardar(new Producto("Bandolera Mini a Crochet", 24000, 10, accesorios));
 				productoService.guardar(new Producto("Polera de Invierno Trenzada a Crochet", 87000, 5, indumentaria));
 				productoService.guardar(new Producto("Bufanda y Gorro a Crochet", 36000, 14, accesorios));
-
+				productoService.guardar(new Producto("Vestido de noche a Crochet", 96000, 3, temporada));
 			}
 		};
 	}

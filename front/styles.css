@@ -1,0 +1,101 @@
+:root {
+    --primary: #007bff;
+    --success: #28a745;
+    --danger: #dc3545;
+    --warning: #ffc107;
+    --dark: #343a40;
+    --light: #f8f9fa;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: var(--light);
+    color: var(--dark);
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .container { 
+        grid-template-columns: 1fr; 
+    }
+}
+
+.panel {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.endpoint-group {
+    margin-bottom: 25px;
+    border-bottom: 2px solid var(--light);
+    padding-bottom: 15px;
+}
+
+.endpoint-group h3 {
+    margin-top: 0;
+    color: var(--primary);
+}
+
+.btn-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    transition: opacity 0.2s;
+}
+
+button:hover { 
+    opacity: 0.9; 
+}
+
+.btn-get { background-color: var(--primary); }
+.btn-post { background-color: var(--success); }
+.btn-put { background-color: var(--warning); color: var(--dark); }
+.btn-delete { background-color: var(--danger); }
+
+#console-panel {
+    position: sticky;
+    top: 20px;
+    height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+}
+
+pre {
+    background: var(--dark);
+    color: #00ff00;
+    padding: 15px;
+    border-radius: 6px;
+    overflow-y: auto;
+    flex-grow: 1;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+}
+
+.clear-btn {
+    background: #6c757d;
+    margin-bottom: 10px;
+}

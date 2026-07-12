@@ -1,13 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tejidos Beris</title>
+    <title>Consola de Pruebas - beris_db</title>
+    <!-- Vinculación del archivo CSS externo -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>** Tejidos Beris **</h1>
-    <script src="script.js"></script>
+
+    <h1>Consola de Control - Base de Datos: beris_db</h1>
+    
+    <div class="container">
+        <!-- Panel Izquierdo: Acciones -->
+        <div class="panel">
+            
+            <!-- SECCIÓN PRODUCTOS -->
+            <div class="endpoint-group">
+                <h3>📦 Gestión de Productos</h3>
+                <div class="btn-grid">
+                    <button class="btn-get" onclick="ejecutar('GET', '/productos')">Listar Todos</button>
+                    <button class="btn-get" onclick="ejecutar('GET', '/productos/categoria/Indumentaria')">Por Cat. Indumentaria</button>
+                    <button class="btn-get" onclick="ejecutar('GET', '/productos/nombre/gorro')">Buscar "gorro"</button>
+                    <button class="btn-get" onclick="ejecutar('GET', '/productos/5')">Ver ID: 5</button>
+                    <button class="btn-delete" onclick="ejecutar('DELETE', '/productos/7')">Eliminar ID: 7</button>
+                </div>
+                <div class="btn-grid">
+                    <button class="btn-post" onclick="crearProducto()">Agregar "Bufanda Arg"</button>
+                    <button class="btn-put" onclick="actualizarProducto()">Actualizar ID: 1</button>
+                </div>
+            </div>
+
+            <!-- SECCIÓN CATEGORÍAS -->
+            <div class="endpoint-group">
+                <h3>🏷️ Gestión de Categorías / Marcas</h3>
+                <div class="btn-grid">
+                    <button class="btn-get" onclick="ejecutar('GET', '/categorias')">Listar Todas</button>
+                    <button class="btn-get" onclick="ejecutar('GET', '/categorias/2')">Ver ID: 2</button>
+                    <button class="btn-delete" onclick="ejecutar('DELETE', '/categorias/3')">Eliminar ID: 3</button>
+                </div>
+                <div class="btn-grid">
+                    <button class="btn-post" onclick="crearCategoria()">Agregar Categoría</button>
+                    <button class="btn-put" onclick="actualizarCategoria()">Actualizar ID: 3</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Panel Derecho: Consola de Resultados -->
+        <div class="panel" id="console-panel">
+            <h2>Resultados de la Consulta</h2>
+            <button class="clear-btn" onclick="limpiarConsola()">Limpiar Pantalla</button>
+            <pre id="output">// Los resultados de las peticiones aparecerán aquí...</pre>
+        </div>
+    </div>
+
+    <script>
+        const BASE_URL = 'http://localhost:8080';
+        const outputElement = document.getElementById('output');
+
+        async function ejecutar(metodo, endpoint) {
+            mostrarTexto(`Enviando ${metodo} a ${BASE_URL}${endpoint}...`);
+            try {
+                const response = await fetch(`${BASE_URL}${endpoint}`, { method: metodo });
+                if (!response.ok) throw new Error(`Error del servidor: ${response.status}`);
+                const texto = await response.text();
+                const data = texto ? JSON.parse(texto) : { mensaje: "Operación realizada con éxito (Sin contenido)" };
+                mostrarJson(data);
+            } catch (error) {
+                mostrarTexto(`❌ Error: ${error.message}`);
+            }
+        }
+
+        async function crearProducto() {
+            const payload = {
+                nombre: "Bufanda Argentina",
+                precio: 19000.0,
+                stock: 10,
+                categoria: { id: 2 }
+            };
+            enviarDatos('POST', '/productos', payload);
+        }
+
+        async function actualizarProducto() {
+            const payload = {
+                nombre: "Chaleco Verde a Crochet",
+                precio: 55000.0,
+                stock: 15,
+                categoria: { nombre: "Indumentaria", descripcion: "Prendas de vestir", id: 1 }
+            };
+            enviarDatos('PUT', '/productos/1', payload);
+        }
+
+        async function crearCategoria() {
+            const payload = { nombre: "Bebés y Niños", descripcion: "Accesorios varios" };
+            enviarDatos('POST', '/categorias', payload);
+        }
+
+        async function actualizarCategoria() {
+            const payload = { nombre: "Bebés y Niños", descripcion: "Ropa infantil" };
+            enviarDatos('PUT', '/categorias/3', payload);
+        }
+
+        async function enviarDatos(metodo, endpoint, datos) {
+            mostrarTexto(`Enviando ${metodo} a ${BASE_URL}${endpoint}...\nPayload: ${JSON.stringify(datos, null, 2)}`);
+            try {
+                const response = await fetch(`${BASE_URL}${endpoint}`, {
+                    method: metodo,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datos)
+                });
+                if (!response.ok) throw new Error(`Error del servidor: ${response.status}`);
+                const texto = await response.text();
+                const data = texto ? JSON.parse(texto) : { mensaje: `${metodo} completado con éxito` };
+                mostrarJson(data);
+            } catch (error) {
+                mostrarTexto(`❌ Error: ${error.message}`);
+            }
+        }
+
+        function mostrarJson(json) { outputElement.textContent = JSON.stringify(json, null, 2); }
+        function mostrarTexto(texto) { outputElement.textContent = texto; }
+        function limpiarConsola() { outputElement.textContent = '// Consola limpia. Esperando acciones...'; }
+    </script>
 </body>
 </html>
+
 
